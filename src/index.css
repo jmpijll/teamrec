@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  /* Microsoft Teams dark theme — deep navy with purple accents */
+  --color-bg-primary: #1b1a2e;
+  --color-bg-secondary: #252440;
+  --color-bg-card: #201f36;
+  --color-bg-elevated: #2d2c4a;
+  --color-accent: #6264a7;
+  --color-accent-hover: #464eb8;
+  --color-record: #c4314b;
+  --color-record-glow: #c4314b80;
+  --color-success: #6bb700;
+  --color-text-primary: #f3f2f1;
+  --color-text-secondary: #c8c6c4;
+  --color-text-muted: #8a8886;
+  --color-border: #3b3a5c;
+}
+
+[data-theme="light"] {
+  /* Microsoft Teams light theme — Fluent white with purple accents */
+  --color-bg-primary: #f5f5f5;
+  --color-bg-secondary: #e8e8ec;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #edebe9;
+  --color-accent: #6264a7;
+  --color-accent-hover: #464eb8;
+  --color-record: #c4314b;
+  --color-record-glow: #c4314b40;
+  --color-success: #6bb700;
+  --color-text-primary: #252423;
+  --color-text-secondary: #605e5c;
+  --color-text-muted: #a19f9d;
+  --color-border: #d2d0ce;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Segoe UI Web", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes pulse-record {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-record-glow); }
+  50% { box-shadow: 0 0 0 20px transparent; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-pulse-record {
+  animation: pulse-record 2s ease-in-out infinite;
+}
+
+/* Smooth scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
