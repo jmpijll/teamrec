@@ -110,11 +110,7 @@ impl TeamsBot {
         if !resp.status().is_success() {
             let status = resp.status();
             let body = resp.text().await.unwrap_or_default();
-            anyhow::bail!(
-                "Authentication failed ({}): {}",
-                status,
-                body
-            );
+            anyhow::bail!("Authentication failed ({}): {}", status, body);
         }
 
         let token_resp: TokenResponse = resp
@@ -305,12 +301,7 @@ impl TeamsBot {
             team_id
         );
 
-        let resp = self
-            .http
-            .get(&url)
-            .bearer_auth(&token)
-            .send()
-            .await?;
+        let resp = self.http.get(&url).bearer_auth(&token).send().await?;
 
         let data: GraphChannelsResponse = resp.json().await?;
 
@@ -340,20 +331,20 @@ pub struct TeamsCredentials {
 }
 
 pub fn save_credentials(creds: &TeamsCredentials) -> Result<()> {
-    let entry_cid =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_CLIENT_ID).context("Failed to access keyring")?;
+    let entry_cid = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_CLIENT_ID)
+        .context("Failed to access keyring")?;
     entry_cid
         .set_password(&creds.client_id)
         .context("Failed to save client_id to keyring")?;
 
-    let entry_tid =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_TENANT_ID).context("Failed to access keyring")?;
+    let entry_tid = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_TENANT_ID)
+        .context("Failed to access keyring")?;
     entry_tid
         .set_password(&creds.tenant_id)
         .context("Failed to save tenant_id to keyring")?;
 
-    let entry_sec =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_SECRET).context("Failed to access keyring")?;
+    let entry_sec = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_SECRET)
+        .context("Failed to access keyring")?;
     entry_sec
         .set_password(&creds.client_secret)
         .context("Failed to save client_secret to keyring")?;
@@ -363,12 +354,12 @@ pub fn save_credentials(creds: &TeamsCredentials) -> Result<()> {
 }
 
 pub fn load_credentials() -> Result<Option<TeamsCredentials>> {
-    let entry_cid =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_CLIENT_ID).context("Failed to access keyring")?;
-    let entry_tid =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_TENANT_ID).context("Failed to access keyring")?;
-    let entry_sec =
-        keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_SECRET).context("Failed to access keyring")?;
+    let entry_cid = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_CLIENT_ID)
+        .context("Failed to access keyring")?;
+    let entry_tid = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_TENANT_ID)
+        .context("Failed to access keyring")?;
+    let entry_sec = keyring::Entry::new(KEYRING_SERVICE, KEYRING_USER_SECRET)
+        .context("Failed to access keyring")?;
 
     let client_id = match entry_cid.get_password() {
         Ok(v) => v,
@@ -394,8 +385,13 @@ pub fn load_credentials() -> Result<Option<TeamsCredentials>> {
 }
 
 pub fn delete_credentials() -> Result<()> {
-    for user in [KEYRING_USER_CLIENT_ID, KEYRING_USER_TENANT_ID, KEYRING_USER_SECRET] {
-        let entry = keyring::Entry::new(KEYRING_SERVICE, user).context("Failed to access keyring")?;
+    for user in [
+        KEYRING_USER_CLIENT_ID,
+        KEYRING_USER_TENANT_ID,
+        KEYRING_USER_SECRET,
+    ] {
+        let entry =
+            keyring::Entry::new(KEYRING_SERVICE, user).context("Failed to access keyring")?;
         match entry.delete_credential() {
             Ok(()) | Err(keyring::Error::NoEntry) => {}
             Err(e) => return Err(anyhow::anyhow!("Failed to delete credential: {}", e)),
