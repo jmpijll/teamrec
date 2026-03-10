@@ -69,5 +69,3 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
-          signingKey: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          signingKeyPassword: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
