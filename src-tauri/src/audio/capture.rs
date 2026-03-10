@@ -128,12 +128,7 @@ fn find_teams_pid() -> Result<u32> {
     let system = System::new_with_specifics(refreshes);
 
     // Microsoft Teams on Windows runs as ms-teams.exe (new Teams) or Teams.exe (classic)
-    let teams_names = [
-        "ms-teams.exe",
-        "Teams.exe",
-        "msteams.exe",
-        "MSTeams.exe",
-    ];
+    let teams_names = ["ms-teams.exe", "Teams.exe", "msteams.exe", "MSTeams.exe"];
 
     for name in &teams_names {
         let mut pids: Vec<_> = system.processes_by_name(OsStr::new(name)).collect();
@@ -170,10 +165,7 @@ fn capture_windows(
     use wasapi::*;
 
     let teams_pid = find_teams_pid()?;
-    log::info!(
-        "Starting per-process capture for Teams PID {}",
-        teams_pid
-    );
+    log::info!("Starting per-process capture for Teams PID {}", teams_pid);
 
     // Initialize COM for this thread
     let hr = initialize_mta();

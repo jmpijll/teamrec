@@ -1,7 +1,7 @@
 use crate::audio::capture::AudioCapture;
 use crate::audio::encoder::AudioFormat;
-use crate::teams::bot::{TeamsBot, TeamInfo, ChannelInfo, TeamsCredentials};
 use crate::settings::SettingsState;
+use crate::teams::bot::{ChannelInfo, TeamInfo, TeamsBot, TeamsCredentials};
 use chrono::Local;
 use parking_lot::Mutex;
 use serde::Serialize;

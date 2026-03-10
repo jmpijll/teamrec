@@ -1,7 +1,7 @@
 mod audio;
 mod commands;
-mod teams;
 mod settings;
+mod teams;
 
 use commands::{RecorderState, TeamsState};
 use parking_lot::Mutex;
