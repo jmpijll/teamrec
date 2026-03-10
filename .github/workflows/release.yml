@@ -56,11 +56,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Write signing key to file
+        run: |
+          echo "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}" > src-tauri/TeamRec
+          chmod 600 src-tauri/TeamRec
+      
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PATH: src-tauri/TeamRec
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: v__VERSION__
